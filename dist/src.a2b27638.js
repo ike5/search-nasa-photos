@@ -189,7 +189,32 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/search/index.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/state.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setState = exports.state = void 0;
+
+/**
+ * This simple state management tool keeps data from being stored 
+ * in our HTML and makes for much simpler application. 
+ */
+const state = {
+  searchTerm: null,
+  images: null,
+  currentImage: null
+}; // update the state object with
+
+exports.state = state;
+
+const setState = (toSet, newValue) => {
+  state[toSet] = newValue;
+};
+
+exports.setState = setState;
+},{}],"src/components/search/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -199,6 +224,8 @@ exports.default = search;
 exports.init = init;
 
 require("./index.css");
+
+var _state = require("../../state");
 
 // default export
 function search() {
@@ -223,9 +250,10 @@ function doSearch(event) {
   // prevent default of search to happen
   event.preventDefault();
   const term = document.querySelector('#search-field').nodeValue.toLowerCase();
+  (0, _state.setState)('searchTerm', term);
   console.log(term);
 }
-},{"./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
+},{"./index.css":"src/components/search/index.css","../../state":"src/state.js"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);

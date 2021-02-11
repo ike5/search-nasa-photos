@@ -1,4 +1,5 @@
 import "./index.css";
+import { state, setState } from "../../state";
 
 // default export
 export default function search() {
@@ -24,6 +25,7 @@ function doSearch(event) {
     event.preventDefault();
 
     const term = document.querySelector('#search-field').nodeValue.toLowerCase();
+    setState('searchTerm', term);
     console.log(term);
 }
 
