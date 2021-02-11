@@ -184,7 +184,48 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/index.css":[function(require,module,exports) {
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/components/search/index.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/search/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = search;
+exports.init = init;
+
+require("./index.css");
+
+// default export
+function search() {
+  return `
+    <h1>Search NASA Photos</h1>
+    <form name="search" id="search">
+        <p><label for="search-field">Enter Search Term Below:</label></p>
+        <input id="search-field" name="search" type="search"/>
+        <input type="submit" id="submit" value="Search"/>
+    </form>
+    `;
+} // named export
+
+
+function init() {
+  const search = document.querySelector('#search');
+  search.addEventListener('submit', doSearch);
+} // get the value from teh search field then log to the console
+
+
+function doSearch(event) {
+  // prevent default of search to happen
+  event.preventDefault();
+  const term = document.querySelector('#search-field').nodeValue.toLowerCase();
+  console.log(term);
+}
+},{"./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -192,12 +233,24 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
+var _search = _interopRequireWildcard(require("./components/search"));
+
 require("./index.css");
 
-function init() {}
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+async function init() {
+  // import form and title and set to markup
+  const markup = (0, _search.default)(); // add all markup to page
+
+  document.querySelector('#app').insertAdjacentHTML('beforeend', markup);
+  (0, _search.init)(); // initializes the search form 
+}
 
 init();
-},{"./index.css":"src/index.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./components/search":"src/components/search/index.js","./index.css":"src/index.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -225,7 +278,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36509" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37857" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

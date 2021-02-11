@@ -1,6 +1,7 @@
 {
   "name": "project",
   "version": "1.0.0",
+  "type": "module",
   "description": "A JavaScript application that lets you search the NASA Photo API",
   "main": "index.html",
   "scripts": {
