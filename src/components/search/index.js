@@ -1,5 +1,6 @@
 import "./index.css";
 import { state, setState } from "../../state";
+import fetchImages from "../../data";
 
 // default export
 export default function search() {
@@ -20,12 +21,16 @@ export function init() {
 }
 
 // get the value from teh search field then log to the console
-function doSearch(event) {
+async function doSearch(event) {
     // prevent default of search to happen
     event.preventDefault();
 
-    const term = document.querySelector('#search-field').nodeValue.toLowerCase();
+    const term = document.querySelector('#search-field').value.toLowerCase();
     setState('searchTerm', term);
-    console.log(term);
+
+    const images = await fetchImages();
+    setState('images', images);
+
+    console.log(state.images);
 }
 

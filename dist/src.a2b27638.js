@@ -214,7 +214,26 @@ const setState = (toSet, newValue) => {
 };
 
 exports.setState = setState;
-},{}],"src/components/search/index.js":[function(require,module,exports) {
+},{}],"src/data.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = fetchImages;
+
+var _state = _interopRequireDefault(require("./state"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
+function fetchImages() {
+  // get search term from state object
+  const url = `https://images-api.nasa.gov/search?q=${_state.default.searchTerm}&media_type=image`;
+  return fetch(url).then(res => res.json()).then(data => data.collection.items) // dont' need all the items of the api, only the collections
+  .catch(error => console.error(error));
+}
+},{"./state":"src/state.js"}],"src/components/search/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -226,6 +245,10 @@ exports.init = init;
 require("./index.css");
 
 var _state = require("../../state");
+
+var _data = _interopRequireDefault(require("../../data"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // default export
 function search() {
@@ -246,14 +269,16 @@ function init() {
 } // get the value from teh search field then log to the console
 
 
-function doSearch(event) {
+async function doSearch(event) {
   // prevent default of search to happen
   event.preventDefault();
-  const term = document.querySelector('#search-field').nodeValue.toLowerCase();
+  const term = document.querySelector('#search-field').value.toLowerCase();
   (0, _state.setState)('searchTerm', term);
-  console.log(term);
+  const images = await (0, _data.default)();
+  (0, _state.setState)('images', images);
+  console.log(_state.state.images);
 }
-},{"./index.css":"src/components/search/index.css","../../state":"src/state.js"}],"src/index.css":[function(require,module,exports) {
+},{"./index.css":"src/components/search/index.css","../../state":"src/state.js","../../data":"src/data.js"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
