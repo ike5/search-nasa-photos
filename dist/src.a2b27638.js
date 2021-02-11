@@ -117,7 +117,49 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+})({"src/state.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setState = exports.state = void 0;
+
+/**
+ * This simple state management tool keeps data from being stored 
+ * in our HTML and makes for much simpler application. 
+ */
+const state = {
+  searchTerm: null,
+  images: null,
+  currentImage: null
+}; // update the state object with
+
+exports.state = state;
+
+const setState = (toSet, newValue) => {
+  state[toSet] = newValue;
+};
+
+exports.setState = setState;
+},{}],"src/data.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = fetchImages;
+
+var _state = require("./state");
+
+// when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
+function fetchImages() {
+  // get search term from state object
+  const url = `https://images-api.nasa.gov/search?q=${_state.state.searchTerm}&media_type=image`;
+  return fetch(url).then(res => res.json()).then(data => data.collection.items) // dont' need all the items of the api, only the collections
+  .catch(error => console.error(error));
+}
+},{"./state":"src/state.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -184,54 +226,41 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/components/search/index.css":[function(require,module,exports) {
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/components/lightbox/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/state.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/lightbox/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setState = exports.state = void 0;
+exports.default = lightbox;
 
-/**
- * This simple state management tool keeps data from being stored 
- * in our HTML and makes for much simpler application. 
- */
-const state = {
-  searchTerm: null,
-  images: null,
-  currentImage: null
-}; // update the state object with
+var _state = require("../../state");
 
-exports.state = state;
+require("./index.css");
 
-const setState = (toSet, newValue) => {
-  state[toSet] = newValue;
-};
+function lightbox() {
+  let markup = `<div class="lightbox">`;
 
-exports.setState = setState;
-},{}],"src/data.js":[function(require,module,exports) {
-"use strict";
+  _state.state.images.forEach(image => {
+    const url = image.links[0].href;
+    const title = image.data[0].title;
+    markup += `<div class="thumbnail"><img src="${url}" alt="${title}"></div>`;
+  });
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = fetchImages;
-
-var _state = require("./state");
-
-// when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
-function fetchImages() {
-  // get search term from state object
-  const url = `https://images-api.nasa.gov/search?q=${_state.state.searchTerm}&media_type=image`;
-  return fetch(url).then(res => res.json()).then(data => data.collection.items) // dont' need all the items of the api, only the collections
-  .catch(error => console.error(error));
+  markup += `</div>`;
+  return markup;
 }
-},{"./state":"src/state.js"}],"src/components/search/index.js":[function(require,module,exports) {
+},{"../../state":"src/state.js","./index.css":"src/components/lightbox/index.css"}],"src/components/search/index.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/search/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -240,11 +269,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = search;
 exports.init = init;
 
-require("./index.css");
-
 var _state = require("../../state");
 
 var _data = _interopRequireDefault(require("../../data"));
+
+var _lightbox = _interopRequireDefault(require("../lightbox"));
+
+require("./index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -257,6 +288,16 @@ async function doSearch(event) {
   (0, _state.setState)(`searchTerm`, term);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
+
+  if (_state.state.images.length === 0) {
+    alert(`There are no results for "${_state.state.searchTerm}"`);
+    (0, _state.setState)(`searchTerm`, null);
+    document.querySelector(`#search-field`).value = _state.state.searchTerm;
+  } else {
+    const markup = (0, _lightbox.default)();
+    document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
+  }
+
   console.log(_state.state.images);
 } // default export
 
@@ -277,7 +318,7 @@ function init() {
   const search = document.querySelector('#search');
   search.addEventListener('submit', doSearch);
 }
-},{"./index.css":"src/components/search/index.css","../../state":"src/state.js","../../data":"src/data.js"}],"src/index.css":[function(require,module,exports) {
+},{"../../state":"src/state.js","../../data":"src/data.js","../lightbox":"src/components/lightbox/index.js","./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);

@@ -1,6 +1,8 @@
-import "./index.css";
 import { state, setState } from "../../state";
 import fetchImages from "../../data";
+import lightbox from "../lightbox";
+
+import "./index.css";
 
 // get the value from teh search field then log to the console
 async function doSearch(event) {
@@ -14,6 +16,15 @@ async function doSearch(event) {
 
     const images = await fetchImages();
     setState('images', images);
+
+    if(state.images.length === 0){
+        alert(`There are no results for "${state.searchTerm}"`);
+        setState(`searchTerm`, null);
+        document.querySelector(`#search-field`).value = state.searchTerm;
+    } else {
+        const markup = lightbox();
+        document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
+    }
 
     console.log(state.images);
 }
