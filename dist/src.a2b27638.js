@@ -250,14 +250,34 @@ var _data = _interopRequireDefault(require("../../data"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// default export
+console.log("src/index.js was called"); //***** 1 */
+// get the value from teh search field then log to the console
+
+async function doSearch(event) {
+  console.log("dosearch was called"); //***** 4*/
+  // prevent default of search to happen
+  // event is just the event handler object
+
+  event.preventDefault();
+  const term = document.getElementById(`search-field`).value.toLowerCase();
+  console.log(term); //**** 5 term works*/
+
+  (0, _state.setState)(`searchTerm`, term);
+  const images = await (0, _data.default)();
+  (0, _state.setState)('images', images);
+  console.log(_state.state.images);
+} // default export
+
+
 function search() {
+  console.log("default export called"); //***** 2 */
+
   return `
     <h1>Search NASA Photos</h1>
     <form name="search" id="search">
         <p><label for="search-field">Enter Search Term Below:</label></p>
-        <input id="search-field" name="search" type="search"/>
-        <input type="submit" id="submit" value="Search"/>
+        <input id="search-field" name="search" type="search">
+        <input type="submit" id="submit" value="Search">
     </form>
     `;
 } // named export
@@ -266,17 +286,7 @@ function search() {
 function init() {
   const search = document.querySelector('#search');
   search.addEventListener('submit', doSearch);
-} // get the value from teh search field then log to the console
-
-
-async function doSearch(event) {
-  // prevent default of search to happen
-  event.preventDefault();
-  const term = document.querySelector('#search-field').value.toLowerCase();
-  (0, _state.setState)('searchTerm', term);
-  const images = await (0, _data.default)();
-  (0, _state.setState)('images', images);
-  console.log(_state.state.images);
+  console.log("init function was called"); //***** 3 */
 }
 },{"./index.css":"src/components/search/index.css","../../state":"src/state.js","../../data":"src/data.js"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -331,7 +341,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37857" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42363" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
