@@ -222,14 +222,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = fetchImages;
 
-var _state = _interopRequireDefault(require("./state"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _state = require("./state");
 
 // when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
 function fetchImages() {
   // get search term from state object
-  const url = `https://images-api.nasa.gov/search?q=${_state.default.searchTerm}&media_type=image`;
+  const url = `https://images-api.nasa.gov/search?q=${_state.state.searchTerm}&media_type=image`;
   return fetch(url).then(res => res.json()).then(data => data.collection.items) // dont' need all the items of the api, only the collections
   .catch(error => console.error(error));
 }
@@ -250,18 +248,12 @@ var _data = _interopRequireDefault(require("../../data"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log("src/index.js was called"); //***** 1 */
 // get the value from teh search field then log to the console
-
 async function doSearch(event) {
-  console.log("dosearch was called"); //***** 4*/
   // prevent default of search to happen
   // event is just the event handler object
-
   event.preventDefault();
   const term = document.getElementById(`search-field`).value.toLowerCase();
-  console.log(term); //**** 5 term works*/
-
   (0, _state.setState)(`searchTerm`, term);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
@@ -270,8 +262,6 @@ async function doSearch(event) {
 
 
 function search() {
-  console.log("default export called"); //***** 2 */
-
   return `
     <h1>Search NASA Photos</h1>
     <form name="search" id="search">
@@ -286,7 +276,6 @@ function search() {
 function init() {
   const search = document.querySelector('#search');
   search.addEventListener('submit', doSearch);
-  console.log("init function was called"); //***** 3 */
 }
 },{"./index.css":"src/components/search/index.css","../../state":"src/state.js","../../data":"src/data.js"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -304,7 +293,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-async function init() {
+function init() {
   // import form and title and set to markup
   const markup = (0, _search.default)(); // add all markup to page
 

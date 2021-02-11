@@ -1,7 +1,7 @@
 import search, { init as initSearch } from "./components/search";
 import "./index.css";
 
-async function init() {
+function init() {
     // import form and title and set to markup
     const markup = search();
 
@@ -9,4 +9,5 @@ async function init() {
     document.querySelector('#app').insertAdjacentHTML('beforeend', markup);
     initSearch(); // initializes the search form 
 }
+
 init();

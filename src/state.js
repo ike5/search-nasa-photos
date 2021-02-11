@@ -8,6 +8,7 @@ const state = {
     currentImage: null
 }
 
+
 // update the state object with
 const setState = (toSet, newValue) => {
     state[toSet] = newValue;

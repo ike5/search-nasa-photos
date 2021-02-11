@@ -2,18 +2,14 @@ import "./index.css";
 import { state, setState } from "../../state";
 import fetchImages from "../../data";
 
-console.log("src/index.js was called"); //***** 1 */
-
 // get the value from teh search field then log to the console
 async function doSearch(event) {
-    console.log("dosearch was called"); //***** 4*/
 
     // prevent default of search to happen
     // event is just the event handler object
     event.preventDefault();
 
     const term = document.getElementById(`search-field`).value.toLowerCase();
-    console.log(term); //**** 5 term works*/
     setState(`searchTerm`, term);
 
     const images = await fetchImages();
@@ -24,7 +20,6 @@ async function doSearch(event) {
 
 // default export
 export default function search() {
-    console.log("default export called"); //***** 2 */
     return `
     <h1>Search NASA Photos</h1>
     <form name="search" id="search">
@@ -39,7 +34,6 @@ export default function search() {
 export function init() {
     const search = document.querySelector('#search');
     search.addEventListener('submit', doSearch);
-    console.log("init function was called"); //***** 3 */
 }
 
 
