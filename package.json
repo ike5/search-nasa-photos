@@ -1,5 +1,5 @@
 {
-  "name": "final-project",
+  "name": "project",
   "version": "1.0.0",
   "description": "A JavaScript application that lets you search the NASA Photo API",
   "main": "index.html",
@@ -17,5 +17,13 @@
   ],
   "dependencies": {
     "moment": "^2.24.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ike5/search-nasa-photos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ike5/search-nasa-photos/issues"
+  },
+  "homepage": "https://github.com/ike5/search-nasa-photos#readme"
 }
