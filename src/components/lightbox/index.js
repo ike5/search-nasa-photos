@@ -1,4 +1,4 @@
-import { state } from "../../state";
+import { state, setState } from "../../state";
 import "./index.css";
 
 export default function lightbox() {
@@ -21,7 +21,31 @@ export function init() {
     });
 }
 
+/**
+ * 
+ * @param {} event On user clicking the photo
+ */
 function openLightBox(event) {
     event.preventDefault();
-    console.log(`Current image: ${event.target}`);
+
+    // save the value in state
+    const currentImageIndex = getCurrentImageIndex(event.target);
+    setState(`currentImage`, currentImageIndex);
+
+    console.log(state.currentImage);
+}
+
+/**
+ * This method will take the image the user clicked on and find the index
+ * of the image from the grid of images.
+ * @param {} image 
+ */
+function getCurrentImageIndex(image) {
+    const images = Array.from(document.querySelectorAll(`.lightbox img`));
+
+    let currentImageIndex = images
+        .map(img => img.outerHTML)
+        .findIndex(img => img === image.outerHTML);
+
+    return currentImageIndex;
 }

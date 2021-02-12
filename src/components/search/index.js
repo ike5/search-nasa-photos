@@ -1,17 +1,20 @@
 import { state, setState } from "../../state";
-import fetchImages from "../../data";
-import lightbox from "../lightbox";
+import fetchImages from "../../data"; // functions don't need braces
+import lightbox, {init as initLightbox } from "../lightbox";
+import test from "../../../testing";
 
 import "./index.css";
 
-// get the value from teh search field then log to the console
+/**
+ * This method supports the search button function.
+ * @param {*} event On click of search or enter button
+ */
 async function doSearch(event) {
-
-    // prevent default of search to happen
-    // event is just the event handler object
     event.preventDefault();
+    // clearLightbox();
 
-    const term = document.getElementById(`search-field`).value.toLowerCase();
+
+    const term = document.querySelector(`#search-field`).value.toLowerCase();
     setState(`searchTerm`, term);
 
     const images = await fetchImages();
@@ -22,8 +25,10 @@ async function doSearch(event) {
         setState(`searchTerm`, null);
         document.querySelector(`#search-field`).value = state.searchTerm;
     } else {
+        test()
         const markup = lightbox();
         document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
+        initLightbox();
     }
 
     console.log(state.images);

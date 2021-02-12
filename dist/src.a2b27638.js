@@ -132,7 +132,8 @@ exports.setState = exports.state = void 0;
 const state = {
   searchTerm: null,
   images: null,
-  currentImage: null
+  currentImage: null // will be saving the image index from lightbox
+
 }; // update the state object with
 
 exports.state = state;
@@ -264,12 +265,43 @@ function init() {
     image.addEventListener(`click`, openLightBox);
   });
 }
+/**
+ * 
+ * @param {} event On user clicking the photo
+ */
+
 
 function openLightBox(event) {
-  event.preventDefault();
-  console.log(`Current image: ${event.target}`);
+  event.preventDefault(); // save the value in state
+
+  const currentImageIndex = getCurrentImageIndex(event.target);
+  (0, _state.setState)(`currentImage`, currentImageIndex);
+  console.log(_state.state.currentImage);
 }
-},{"../../state":"src/state.js","./index.css":"src/components/lightbox/index.css"}],"src/components/search/index.css":[function(require,module,exports) {
+/**
+ * This method will take the image the user clicked on and find the index
+ * of the image from the grid of images.
+ * @param {} image 
+ */
+
+
+function getCurrentImageIndex(image) {
+  const images = Array.from(document.querySelectorAll(`.lightbox img`));
+  let currentImageIndex = images.map(img => img.outerHTML).findIndex(img => img === image.outerHTML);
+  return currentImageIndex;
+}
+},{"../../state":"src/state.js","./index.css":"src/components/lightbox/index.css"}],"testing.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = test;
+
+function test(message = "ENTRY HERE") {
+  console.log(message);
+}
+},{}],"src/components/search/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -287,18 +319,28 @@ var _state = require("../../state");
 
 var _data = _interopRequireDefault(require("../../data"));
 
-var _lightbox = _interopRequireDefault(require("../lightbox"));
+var _lightbox = _interopRequireWildcard(require("../lightbox"));
+
+var _testing = _interopRequireDefault(require("../../../testing"));
 
 require("./index.css");
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// get the value from teh search field then log to the console
+// functions don't need braces
+
+/**
+ * This method supports the search button function.
+ * @param {*} event On click of search or enter button
+ */
 async function doSearch(event) {
-  // prevent default of search to happen
-  // event is just the event handler object
-  event.preventDefault();
-  const term = document.getElementById(`search-field`).value.toLowerCase();
+  event.preventDefault(); // clearLightbox();
+
+  const term = document.querySelector(`#search-field`).value.toLowerCase();
   (0, _state.setState)(`searchTerm`, term);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
@@ -308,8 +350,10 @@ async function doSearch(event) {
     (0, _state.setState)(`searchTerm`, null);
     document.querySelector(`#search-field`).value = _state.state.searchTerm;
   } else {
+    (0, _testing.default)();
     const markup = (0, _lightbox.default)();
     document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
+    (0, _lightbox.init)();
   }
 
   console.log(_state.state.images);
@@ -332,7 +376,7 @@ function init() {
   const search = document.querySelector('#search');
   search.addEventListener('submit', doSearch);
 }
-},{"../../state":"src/state.js","../../data":"src/data.js","../lightbox":"src/components/lightbox/index.js","./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
+},{"../../state":"src/state.js","../../data":"src/data.js","../lightbox":"src/components/lightbox/index.js","../../../testing":"testing.js","./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
