@@ -238,6 +238,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = lightbox;
+exports.init = init;
 
 var _state = require("../../state");
 
@@ -254,6 +255,19 @@ function lightbox() {
 
   markup += `</div>`;
   return markup;
+}
+
+function init() {
+  // select an image and attach an event listener to it
+  const images = Array.from(document.querySelectorAll(`.lighbox img`));
+  images.forEach(image => {
+    image.addEventListener(`click`, openLightBox);
+  });
+}
+
+function openLightBox(event) {
+  event.preventDefault();
+  console.log(`Current image: ${event.target}`);
 }
 },{"../../state":"src/state.js","./index.css":"src/components/lightbox/index.css"}],"src/components/search/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -371,7 +385,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39927" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46347" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
