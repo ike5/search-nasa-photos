@@ -1,5 +1,6 @@
 import { state, setState } from "../../state";
 import "./index.css";
+import test, { testarray } from "../../../testing";
 
 export default function lightbox() {
     let markup = `<div class="lightbox">`;

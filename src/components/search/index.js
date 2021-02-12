@@ -1,6 +1,6 @@
 import { state, setState } from "../../state";
 import fetchImages from "../../data"; // functions don't need braces
-import lightbox, {init as initLightbox } from "../lightbox";
+import lightbox, {init as initLightbox} from "../lightbox";
 import test from "../../../testing";
 
 import "./index.css";
@@ -25,7 +25,6 @@ async function doSearch(event) {
         setState(`searchTerm`, null);
         document.querySelector(`#search-field`).value = state.searchTerm;
     } else {
-        test()
         const markup = lightbox();
         document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
         initLightbox();
