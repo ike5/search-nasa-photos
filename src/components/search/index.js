@@ -20,9 +20,13 @@ async function doSearch(event) {
     const images = await fetchImages();
     setState('images', images);
 
+    test(`Length of state.images ${state.images.length}`)
+
     if(state.images.length === 0){
-        alert(`There are no results for "${state.searchTerm}"`);
+        alert(`There are no results for "${state.searchTerm}"`); // pauses here while alert box is up
         setState(`searchTerm`, null);
+
+        test(`Value of serchTerm: ${state.searchTerm}`);
         document.querySelector(`#search-field`).value = state.searchTerm;
     } else {
         const markup = lightbox();

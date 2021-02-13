@@ -1,4 +1,5 @@
 import {state} from "./state"; // when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
+import test from "../testing";
 
 export default function fetchImages() {
     // get search term from state object

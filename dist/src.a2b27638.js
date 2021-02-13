@@ -143,6 +143,22 @@ const setState = (toSet, newValue) => {
 };
 
 exports.setState = setState;
+},{}],"testing.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = test;
+exports.testarray = testarray;
+
+function test(message = "ENTRY HERE") {
+  console.log(message);
+}
+
+function testarray(...a) {
+  console.table(a);
+}
 },{}],"src/data.js":[function(require,module,exports) {
 "use strict";
 
@@ -153,6 +169,10 @@ exports.default = fetchImages;
 
 var _state = require("./state");
 
+var _testing = _interopRequireDefault(require("../testing"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // when get an update from doSearch() file will also get an update here. Prevents having to pass around the search term as a parameter from one file to another.
 function fetchImages() {
   // get search term from state object
@@ -160,7 +180,7 @@ function fetchImages() {
   return fetch(url).then(res => res.json()).then(data => data.collection.items) // dont' need all the items of the api, only the collections
   .catch(error => console.error(error));
 }
-},{"./state":"src/state.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./state":"src/state.js","../testing":"testing.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -232,23 +252,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"testing.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = test;
-exports.testarray = testarray;
-
-function test(message = "ENTRY HERE") {
-  console.log(message);
-}
-
-function testarray(...a) {
-  console.table(a);
-}
-},{}],"src/components/lightbox/index.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/lightbox/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -355,10 +359,13 @@ async function doSearch(event) {
   (0, _state.setState)(`searchTerm`, term);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
+  (0, _testing.default)(`Length of state.images ${_state.state.images.length}`);
 
   if (_state.state.images.length === 0) {
-    alert(`There are no results for "${_state.state.searchTerm}"`);
+    alert(`There are no results for "${_state.state.searchTerm}"`); // pauses here while alert box is up
+
     (0, _state.setState)(`searchTerm`, null);
+    (0, _testing.default)(`Value of serchTerm: ${_state.state.searchTerm}`);
     document.querySelector(`#search-field`).value = _state.state.searchTerm;
   } else {
     const markup = (0, _lightbox.default)();
@@ -439,7 +446,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46347" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43555" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
