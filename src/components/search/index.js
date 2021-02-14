@@ -32,6 +32,7 @@ async function doSearch(event) {
         const markup = lightbox();
         document.querySelector(`#app`).insertAdjacentHTML(`beforeend`, markup);
         initLightbox();
+        test("hello test");
     }
 
     console.log(state.images);
