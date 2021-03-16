@@ -1,13 +1,16 @@
-import search, { init as initSearch } from "./components/search";
+import search, {init as initSearch} from "./components/search/"
 import "./index.css";
 
-function init() {
+async function init() {
     // import form and title and set to markup
     const markup = search();
 
-    // add all markup to page
+    // add all markup to main page through 'app' div id
     document.querySelector('#app').insertAdjacentHTML('beforeend', markup);
-    initSearch(); // initializes the search form 
+
+    // initialize the search form 
+    initSearch(); 
 }
 
+// call the function above
 init();

@@ -403,7 +403,7 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
-var _search = _interopRequireWildcard(require("./components/search"));
+var _search = _interopRequireWildcard(require("./components/search/"));
 
 require("./index.css");
 
@@ -411,16 +411,18 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function init() {
+async function init() {
   // import form and title and set to markup
-  const markup = (0, _search.default)(); // add all markup to page
+  const markup = (0, _search.default)(); // add all markup to main page through 'app' div id
 
-  document.querySelector('#app').insertAdjacentHTML('beforeend', markup);
-  (0, _search.init)(); // initializes the search form 
-}
+  document.querySelector('#app').insertAdjacentHTML('beforeend', markup); // initialize the search form 
+
+  (0, _search.init)();
+} // call the function above
+
 
 init();
-},{"./components/search":"src/components/search/index.js","./index.css":"src/index.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./components/search/":"src/components/search/index.js","./index.css":"src/index.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
