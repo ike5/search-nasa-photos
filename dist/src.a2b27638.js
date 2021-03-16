@@ -361,13 +361,11 @@ async function doSearch(event) {
   (0, _state.setState)(`searchTerm`, searchTerm);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
-  (0, _testing.default)(`Length of state.images ${_state.state.images.length}`);
 
   if (_state.state.images.length === 0) {
     alert(`There are no results for "${_state.state.searchTerm}"`); // pauses here while alert box is up
 
     (0, _state.setState)(`searchTerm`, null);
-    (0, _testing.default)(`Value of serchTerm: ${_state.state.searchTerm}`);
     document.querySelector(`#search-field`).value = _state.state.searchTerm;
   } else {
     const markup = (0, _lightbox.default)();
@@ -450,7 +448,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35543" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36993" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
