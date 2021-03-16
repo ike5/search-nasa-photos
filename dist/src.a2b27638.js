@@ -353,10 +353,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {*} event On click of search or enter button
  */
 async function doSearch(event) {
+  // prevent the default submit behavior
   event.preventDefault(); // clearLightbox();
+  // get the value in the search field and make lower case
 
-  const term = document.querySelector(`#search-field`).value.toLowerCase();
-  (0, _state.setState)(`searchTerm`, term);
+  const searchTerm = document.querySelector(`#search-field`).value.toLowerCase();
+  (0, _state.setState)(`searchTerm`, searchTerm);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
   (0, _testing.default)(`Length of state.images ${_state.state.images.length}`);
@@ -446,7 +448,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42227" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35543" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

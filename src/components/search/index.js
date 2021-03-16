@@ -10,12 +10,13 @@ import "./index.css";
  * @param {*} event On click of search or enter button
  */
 async function doSearch(event) {
+    // prevent the default submit behavior
     event.preventDefault();
     // clearLightbox();
 
-
-    const term = document.querySelector(`#search-field`).value.toLowerCase();
-    setState(`searchTerm`, term);
+    // get the value in the search field and make lower case
+    const searchTerm = document.querySelector(`#search-field`).value.toLowerCase();
+    setState(`searchTerm`, searchTerm);
 
     const images = await fetchImages();
     setState('images', images);
