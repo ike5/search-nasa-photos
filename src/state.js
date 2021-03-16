@@ -5,7 +5,7 @@
 const state = {
     searchTerm: null,
     images: null,
-    currentImage: null // will be saving the image index from lightbox
+    currentImage: null // will be saving the image index from lightbox modal
 }
 
 

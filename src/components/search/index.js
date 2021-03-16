@@ -1,7 +1,6 @@
 import { state, setState } from "../../state";
 import fetchImages from "../../data"; // functions don't need braces
 import lightbox, {init as initLightbox} from "../lightbox";
-import test from "../../../testing";
 
 import "./index.css";
 
@@ -12,11 +11,12 @@ import "./index.css";
 async function doSearch(event) {
     // prevent the default submit behavior
     event.preventDefault();
-    // clearLightbox();
 
     // get the value in the search field and make lower case
     const searchTerm = document.querySelector(`#search-field`).value.toLowerCase();
-    setState(`searchTerm`, searchTerm);
+    setState(`searchTerm`, searchTerm); // update state object with new search term
+
+    console.log(`The state object search term is: ${state.searchTerm}`);
 
     const images = await fetchImages();
     setState('images', images);

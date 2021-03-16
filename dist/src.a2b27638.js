@@ -132,7 +132,7 @@ exports.setState = exports.state = void 0;
 const state = {
   searchTerm: null,
   images: null,
-  currentImage: null // will be saving the image index from lightbox
+  currentImage: null // will be saving the image index from lightbox modal
 
 }; // update the state object with
 
@@ -336,8 +336,6 @@ var _data = _interopRequireDefault(require("../../data"));
 
 var _lightbox = _interopRequireWildcard(require("../lightbox"));
 
-var _testing = _interopRequireDefault(require("../../../testing"));
-
 require("./index.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -354,11 +352,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 async function doSearch(event) {
   // prevent the default submit behavior
-  event.preventDefault(); // clearLightbox();
-  // get the value in the search field and make lower case
+  event.preventDefault(); // get the value in the search field and make lower case
 
   const searchTerm = document.querySelector(`#search-field`).value.toLowerCase();
-  (0, _state.setState)(`searchTerm`, searchTerm);
+  (0, _state.setState)(`searchTerm`, searchTerm); // update state object with new search term
+
+  console.log(`The state object search term is: ${_state.state.searchTerm}`);
   const images = await (0, _data.default)();
   (0, _state.setState)('images', images);
 
@@ -393,7 +392,7 @@ function init() {
   const search = document.querySelector('#search');
   search.addEventListener('submit', doSearch);
 }
-},{"../../state":"src/state.js","../../data":"src/data.js","../lightbox":"src/components/lightbox/index.js","../../../testing":"testing.js","./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
+},{"../../state":"src/state.js","../../data":"src/data.js","../lightbox":"src/components/lightbox/index.js","./index.css":"src/components/search/index.css"}],"src/index.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
